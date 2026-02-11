@@ -1,0 +1,88 @@
+{
+  "log": {
+    "level": "info"
+  },
+
+  "dns": {
+    "servers": [
+      {
+        "tag": "local",
+        "address": "223.5.5.5",
+        "detour": "direct"
+      },
+      {
+        "tag": "remote",
+        "address": "8.8.8.8",
+        "detour": "proxy"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": "geosite-cn",
+        "server": "local"
+      }
+    ]
+  },
+
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": [
+        "auto",
+        "direct"
+      ]
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": [
+        "subscription"
+      ],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "600s",
+      "tolerance": 50
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+
+  "route": {
+    "auto_detect_interface": true,
+
+    "rule_set": [
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs"
+      },
+      {
+        "tag": "geoip-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs"
+      }
+    ],
+
+    "rules": [
+      {
+        "rule_set": "geosite-cn",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geoip-cn",
+        "outbound": "direct"
+      },
+      {
+        "outbound": "proxy"
+      }
+    ]
+  }
+}
