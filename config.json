@@ -30,13 +30,16 @@
       "tag": "proxy",
       "outbounds": [
         "auto",
+        "subscription",
         "direct"
       ]
     },
     {
       "type": "urltest",
       "tag": "auto",
-      "use_all_providers": true,
+      "outbounds": [
+        "subscription"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "600s",
       "tolerance": 50
