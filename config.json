@@ -36,9 +36,7 @@
     {
       "type": "urltest",
       "tag": "auto",
-      "outbounds": [
-        "subscription"
-      ],
+      "use_all_providers": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": "600s",
       "tolerance": 50
